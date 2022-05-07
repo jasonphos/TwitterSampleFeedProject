@@ -69,14 +69,18 @@ namespace Jasonphos.TwitterSampleFeedGUI {
                 //where we have an "IsRunning" volatile boolean that all the processes are using to indicate that the process should stop.
                 //I believe this should be good enough for the 1% Twitter feed.
                 isProcessorStarted = false;
+                txtEndTimestamp.Text = determineCurrentDateTime();
                 await Task.Delay(2000); //Give the Process some time to finish up. Not sure the ideal value here. Could make it configurable in the future. Also, this would be made unnecessary if we changed to a CancellationToken
                 
             }
-                
-
+            txtCurrentDateTime.Text = determineCurrentDateTime();  
+            if(appData.LastProcessingDateTime == null)
+                txtLastProcessedTimestamp.Text = "";
+            else 
+                txtLastProcessedTimestamp.Text = ((DateTime)appData.LastProcessingDateTime).ToString("MM/dd HH:mm:ss");
         }
         private String determineCurrentDateTime() {
-            return DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            return DateTime.Now.ToString("MM/dd HH:mm:ss");
         }
     }
 }

@@ -29,14 +29,14 @@
             this.txtTotalTweets = new System.Windows.Forms.TextBox();
             this.txtTweetsPerMin = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtEndTimestamp = new System.Windows.Forms.TextBox();
+            this.txtLastProcessedTimestamp = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtCurrentDateTime = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtEndTimestamp = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -53,10 +53,10 @@
             // txtStartTimestamp
             // 
             this.txtStartTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.txtStartTimestamp.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtStartTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtStartTimestamp.Location = new System.Drawing.Point(12, 64);
             this.txtStartTimestamp.Name = "txtStartTimestamp";
-            this.txtStartTimestamp.Size = new System.Drawing.Size(124, 29);
+            this.txtStartTimestamp.Size = new System.Drawing.Size(148, 29);
             this.txtStartTimestamp.TabIndex = 1;
             // 
             // label2
@@ -95,20 +95,20 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Avg Tweets/Minute:";
             // 
-            // txtEndTimestamp
+            // txtLastProcessedTimestamp
             // 
-            this.txtEndTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.txtEndTimestamp.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtEndTimestamp.Location = new System.Drawing.Point(340, 64);
-            this.txtEndTimestamp.Name = "txtEndTimestamp";
-            this.txtEndTimestamp.Size = new System.Drawing.Size(124, 29);
-            this.txtEndTimestamp.TabIndex = 7;
+            this.txtLastProcessedTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.txtLastProcessedTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtLastProcessedTimestamp.Location = new System.Drawing.Point(416, 65);
+            this.txtLastProcessedTimestamp.Name = "txtLastProcessedTimestamp";
+            this.txtLastProcessedTimestamp.Size = new System.Drawing.Size(148, 29);
+            this.txtLastProcessedTimestamp.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(340, 14);
+            this.label4.Location = new System.Drawing.Point(416, 15);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(147, 44);
             this.label4.TabIndex = 6;
@@ -127,17 +127,17 @@
             // txtCurrentDateTime
             // 
             this.txtCurrentDateTime.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.txtCurrentDateTime.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtCurrentDateTime.Location = new System.Drawing.Point(546, 63);
+            this.txtCurrentDateTime.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtCurrentDateTime.Location = new System.Drawing.Point(619, 64);
             this.txtCurrentDateTime.Name = "txtCurrentDateTime";
-            this.txtCurrentDateTime.Size = new System.Drawing.Size(124, 29);
+            this.txtCurrentDateTime.Size = new System.Drawing.Size(148, 29);
             this.txtCurrentDateTime.TabIndex = 10;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(546, 14);
+            this.label6.Location = new System.Drawing.Point(619, 15);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(97, 44);
             this.label6.TabIndex = 9;
@@ -160,20 +160,20 @@
             this.label7.Size = new System.Drawing.Size(1115, 2);
             this.label7.TabIndex = 12;
             // 
-            // textBox1
+            // txtEndTimestamp
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.textBox1.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(174, 64);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(124, 29);
-            this.textBox1.TabIndex = 14;
+            this.txtEndTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.txtEndTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtEndTimestamp.Location = new System.Drawing.Point(212, 64);
+            this.txtEndTimestamp.Name = "txtEndTimestamp";
+            this.txtEndTimestamp.Size = new System.Drawing.Size(148, 29);
+            this.txtEndTimestamp.TabIndex = 14;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(174, 15);
+            this.label8.Location = new System.Drawing.Point(212, 15);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(107, 44);
             this.label8.TabIndex = 13;
@@ -184,14 +184,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 684);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtEndTimestamp);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.txtCurrentDateTime);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtEndTimestamp);
+            this.Controls.Add(this.txtLastProcessedTimestamp);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtTweetsPerMin);
             this.Controls.Add(this.label3);
@@ -214,14 +214,14 @@
         private TextBox txtTotalTweets;
         private TextBox txtTweetsPerMin;
         private Label label3;
-        private TextBox txtEndTimestamp;
+        private TextBox txtLastProcessedTimestamp;
         private Label label4;
         private Label label5;
         private TextBox txtCurrentDateTime;
         private Label label6;
         private TextBox txtLog;
         private Label label7;
-        private TextBox textBox1;
+        private TextBox txtEndTimestamp;
         private Label label8;
     }
 }

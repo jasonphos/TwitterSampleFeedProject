@@ -12,7 +12,21 @@ namespace Jasonphos.TwitterSampleFeedLogic {
         }
 
         public async Task StartFeedAsync() {
+            await _semaphoreSlimProcessing.WaitAsync();
 
+            await ReceiveTwitterStreamAsync(ApplicationData);
+
+            ProcessTwitterStream(ApplicationData);
+
+            _semaphoreSlimProcessing.Release();
+        }
+
+        private void ProcessTwitterStream(object appData) {
+            throw new NotImplementedException();
+        }
+
+        private Task ReceiveTwitterStreamAsync(object appData) {
+            throw new NotImplementedException();
         }
     }
 }
