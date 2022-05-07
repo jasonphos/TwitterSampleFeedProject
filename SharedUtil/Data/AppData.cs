@@ -26,5 +26,11 @@ namespace Jasonphos.SharedUtil.Data {
         public void AppendToLog(string message) {
             throw new NotImplementedException();
         }
+
+        public string BearerToken {
+            get {
+                return (Config.GetValue("cfg_TwitterAPIBearerToken"));
+            }
+        }
     }
 }

@@ -35,6 +35,8 @@
             this.cfg_TwitterAPIBearerToken = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cfg_ServiceEndpointBase
@@ -60,7 +62,7 @@
             // 
             this.cfg_MaxGUILogLengthChars.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.cfg_MaxGUILogLengthChars.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cfg_MaxGUILogLengthChars.Location = new System.Drawing.Point(326, 57);
+            this.cfg_MaxGUILogLengthChars.Location = new System.Drawing.Point(459, 58);
             this.cfg_MaxGUILogLengthChars.Name = "cfg_MaxGUILogLengthChars";
             this.cfg_MaxGUILogLengthChars.Size = new System.Drawing.Size(124, 29);
             this.cfg_MaxGUILogLengthChars.TabIndex = 20;
@@ -69,7 +71,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(326, 8);
+            this.label6.Location = new System.Drawing.Point(459, 9);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(133, 44);
             this.label6.TabIndex = 19;
@@ -81,7 +83,7 @@
             this.cfg_ProcessorThreads.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.cfg_ProcessorThreads.Location = new System.Drawing.Point(175, 58);
             this.cfg_ProcessorThreads.Name = "cfg_ProcessorThreads";
-            this.cfg_ProcessorThreads.Size = new System.Drawing.Size(117, 29);
+            this.cfg_ProcessorThreads.Size = new System.Drawing.Size(84, 29);
             this.cfg_ProcessorThreads.TabIndex = 18;
             // 
             // label4
@@ -144,11 +146,32 @@
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
             // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.textBox1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBox1.Location = new System.Drawing.Point(289, 59);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(84, 29);
+            this.textBox1.TabIndex = 27;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(289, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(100, 22);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "Batch Size";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 497);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.cfg_TwitterAPIBearerToken);
             this.Controls.Add(this.label2);
@@ -180,5 +203,7 @@
         private TextBox cfg_TwitterAPIBearerToken;
         private Label label2;
         private Button btnStart;
+        private TextBox textBox1;
+        private Label label3;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Jasonphos.SharedUtil.Data;
+using Jasonphos.SharedUtil.Util;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,9 +11,12 @@ namespace Jasonphos.TwitterSampleFeedLogic {
     public class SampleFeedAppData : AppData {
 
         public ConcurrentQueue<String> Messages;
-        public int ProcessorThreadCount { get 
-                {
+        public int ProcessorThreadCount { get {
                 return Int32.Parse(Config.GetValue("cfg_ProcessorThreads"));
+            } 
+        }
+        public int ProcessorBatchSize {  get {
+                return Int32.Parse(Config.GetValue("cfg_ProcessorBatchSize"));
             } 
         }
 
@@ -32,6 +36,16 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                     data["LastProcessingDateTime"] = value;
             }
                 
+        }
+
+        public int MaxTwitterConnectionTries { get {
+                return Int32.Parse(Config.GetValue("MaxTwitterConnectionTries"));
+            }
+        }
+
+        public string? TwitterSampleFeedEndpoint { get {
+                return RestUtil.Combine(Config.GetValue("cfg_ServiceEndpointBase"),"tweets/sample/stream");
+            }
         }
 
         public volatile int TweetsCount;

@@ -32,7 +32,7 @@ namespace Jasonphos.TwitterSampleFeedGUI {
             timerStartProcessor.Tick += new EventHandler(timerTick_StartProcessor);
             timerStartProcessor.Start();
 
-            int refreshPeriod = (int) (Double.Parse(_processor.ApplicationData.Config.GetValue("cfg_FormRefreshPeriodInSeconds")) * 1000);
+            int refreshPeriod = (int) (Double.Parse(_processor._ApplicationData.Config.GetValue("cfg_FormRefreshPeriodInSeconds")) * 1000);
 
             timerUpdateView = new System.Windows.Forms.Timer {
                 Interval = refreshPeriod
@@ -47,12 +47,12 @@ namespace Jasonphos.TwitterSampleFeedGUI {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void timerTick_StartProcessor(object? sender, EventArgs e) {
-            if (_processor.ApplicationData.IsStarted == false && isProcessorStarted == false) {
+            if (_processor._ApplicationData.IsStarted == false && isProcessorStarted == false) {
                 this.txtStartTimestamp.Text = determineCurrentDateTime();
-                int numberThreads = _processor.ApplicationData.ProcessorThreadCount;
+                int numberThreads = _processor._ApplicationData.ProcessorThreadCount;
                 for (int i = 0; i < numberThreads; i++) { //I also am using semaphoreslim to set the maximum number of threads, based upon some async examples I read. One of the two might not be needed, I'm not certain, but even if semaphoreslim isn't strictly needed, I don't think it causes any harm and in fact it could be useful to throttle down the number of threads, if we ever wanted to do that.
                     Task.Run(async () => {
-                        await _processor.StartFeedAsync();
+                        await _processor.StartFeedAsync(i+1);
                     });
                 }
                 isProcessorStarted = true;
@@ -63,7 +63,7 @@ namespace Jasonphos.TwitterSampleFeedGUI {
         }
 
         private async void timerTick_UpdateView(object? sender,EventArgs e) {
-            SampleFeedAppData appData = _processor.ApplicationData;
+            SampleFeedAppData appData = _processor._ApplicationData;
             if (appData.IsRunning == false && appData.IsStarted && isProcessorStarted == true) {
                 //Note: Ideally we should use the CancellationToken pattern here, and we would want to for more messages, but for now I am writing a simpler version
                 //where we have an "IsRunning" volatile boolean that all the processes are using to indicate that the process should stop.
