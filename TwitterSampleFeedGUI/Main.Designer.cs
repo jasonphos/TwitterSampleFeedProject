@@ -35,7 +35,7 @@
             this.cfg_TwitterAPIBearerToken = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.cfg_ProcessorBatchSize = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -146,14 +146,14 @@
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
             // 
-            // textBox1
+            // cfg_ProcessorBatchSize
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.textBox1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(289, 59);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(84, 29);
-            this.textBox1.TabIndex = 27;
+            this.cfg_ProcessorBatchSize.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.cfg_ProcessorBatchSize.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.cfg_ProcessorBatchSize.Location = new System.Drawing.Point(289, 59);
+            this.cfg_ProcessorBatchSize.Name = "cfg_ProcessorBatchSize";
+            this.cfg_ProcessorBatchSize.Size = new System.Drawing.Size(84, 29);
+            this.cfg_ProcessorBatchSize.TabIndex = 27;
             // 
             // label3
             // 
@@ -170,7 +170,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 497);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.cfg_ProcessorBatchSize);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.cfg_TwitterAPIBearerToken);
@@ -203,7 +203,7 @@
         private TextBox cfg_TwitterAPIBearerToken;
         private Label label2;
         private Button btnStart;
-        private TextBox textBox1;
+        private TextBox cfg_ProcessorBatchSize;
         private Label label3;
     }
 }

@@ -53,21 +53,21 @@ namespace Jasonphos.TwitterSampleFeedGUI {
                 for (int i = 0; i < numberThreads; i++) { //I also am using semaphoreslim to set the maximum number of threads, based upon some async examples I read. One of the two might not be needed, I'm not certain, but even if semaphoreslim isn't strictly needed, I don't think it causes any harm and in fact it could be useful to throttle down the number of threads, if we ever wanted to do that.
                     Task.Run(async () => {
                         await _processor.StartFeedAsync(i+1);
-                    });
+                       });
                 }
                 isProcessorStarted = true;
             }
 #pragma warning disable CS8602 // /Warning Disabled by JasonFoster on 5/5/2022. Cannot be null because only timerStartProcessor has a reference to this method, therefore timerStartProcessor is not null inside this method.
-            timerStartProcessor.Stop();
+            //timerStartProcessor.Stop();
 #pragma warning restore CS8602
         }
 
         private async void timerTick_UpdateView(object? sender,EventArgs e) {
             SampleFeedAppData appData = _processor._ApplicationData;
             if (appData.IsRunning == false && appData.IsStarted && isProcessorStarted == true) {
-                //Note: Ideally we should use the CancellationToken pattern here, and we would want to for more messages, but for now I am writing a simpler version
+                //Note: Ideally we should use the CancellationToken pattern here, but for now I am writing a simpler version
                 //where we have an "IsRunning" volatile boolean that all the processes are using to indicate that the process should stop.
-                //I believe this should be good enough for the 1% Twitter feed.
+                //Consider this blog post: https://johnthiriet.com/efficient-api-calls/
                 isProcessorStarted = false;
                 txtEndTimestamp.Text = determineCurrentDateTime();
                 await Task.Delay(2000); //Give the Process some time to finish up. Not sure the ideal value here. Could make it configurable in the future. Also, this would be made unnecessary if we changed to a CancellationToken

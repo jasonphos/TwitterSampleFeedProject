@@ -17,12 +17,13 @@ namespace Jasonphos.TwitterSampleFeedLogic {
 
         public async Task StartFeedAsync(int threadId) {
 
-            while(_ApplicationData.IsRunning) {  //Todo: Use a Cancellation Token instead? Or, this may be good enough. I need to research Cancellation Tokens more}
+            while(_ApplicationData.IsRunning || _ApplicationData.Messages.Count > 0) {  //Todo: Use a Cancellation Token instead? Or, this may be good enough. I need to research Cancellation Tokens more}
                 try {
 
                     await _semaphoreSlimProcessing.WaitAsync();
 
-                    await ReceiveSampleFeedAsync(_ApplicationData, threadId);
+                    if (_ApplicationData.IsRunning)
+                        await ReceiveSampleFeedAsync(_ApplicationData, threadId);
 
                     ProcessSampleFeed(_ApplicationData);
 
@@ -41,8 +42,10 @@ namespace Jasonphos.TwitterSampleFeedLogic {
             for(int i = 0; i < appData.ProcessorBatchSize + ExtraMessagesBufferCount; i++) {
                 if (appData.Messages.TryDequeue(out String? jsonMessage)) {
                     //We are processing a Tweet. Increment our counters and other appData stuff
-                    appData.TweetsCount++;
-                    appData.LastProcessingDateTime = DateTime.Now;
+                    appData.IncrementTweetsProcessedCount();
+                    appData.LastProcessingDateTime  = DateTime.Now;
+                } else {
+                    break;
                 }
             }
         }

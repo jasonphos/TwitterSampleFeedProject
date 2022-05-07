@@ -38,6 +38,20 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                 
         }
 
+        public DateTime? LastReceiveDateTime {
+            get {
+                if(data.ContainsKey("LastReceiveDateTime"))
+                    return (DateTime)data["LastReceiveDateTime"];
+                else
+                    return null;
+            }
+            set {
+                if(value != null)
+                    data["LastReceiveDateTime"] = value;
+            }
+
+        }
+
         public int MaxTwitterConnectionTries { get {
                 return Int32.Parse(Config.GetValue("MaxTwitterConnectionTries"));
             }
@@ -48,10 +62,16 @@ namespace Jasonphos.TwitterSampleFeedLogic {
             }
         }
 
-        public volatile int TweetsCount;
+        protected volatile int tweetsReceivedCount;
+        protected volatile int tweetsProcessedCount;
+        public int TweetsReceivedCount { get { return tweetsReceivedCount; } }
+        public int TweetsProcessedCount { get { return tweetsProcessedCount; } }        
 
-        public void IncrementTweetsCount(int count = 1) {
-            Interlocked.Add(ref this.TweetsCount, count);
+        public void IncrementTweetsReceivedCount(int count = 1) {
+            Interlocked.Add(ref this.tweetsReceivedCount, count);
+        }
+        public void IncrementTweetsProcessedCount(int count = 1) {
+            Interlocked.Add(ref this.tweetsProcessedCount,count);
         }
         public SampleFeedAppData(ConfigData configData) : base(configData) {
             Messages = new();

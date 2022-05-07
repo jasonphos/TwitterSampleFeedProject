@@ -32,5 +32,18 @@ namespace Jasonphos.SharedUtil.Data {
                 return (Config.GetValue("cfg_TwitterAPIBearerToken"));
             }
         }
+
+        private T? GetDataValue<T>(String key) {
+            if(data.ContainsKey(key))
+                return (T)data[key];
+            else
+                return default(T);
+        }
+        private void SetDataValue<T>(String key,T? value) {
+            if(value != null)
+                data["LastProcessingDateTime"] = value;
+            else
+                data.Remove(key,out object? outValue);
+        }
     }
 }
