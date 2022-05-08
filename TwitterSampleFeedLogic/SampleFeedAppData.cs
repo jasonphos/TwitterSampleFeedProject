@@ -12,48 +12,39 @@ namespace Jasonphos.TwitterSampleFeedLogic {
 
         public ConcurrentQueue<String> Messages;
         public int ProcessorThreadCount { get {
-                return Int32.Parse(Config.GetValue("cfg_ProcessorThreads"));
+                return GetIntValueOrADefault("cfg_ProcessorThreads",1);
             } 
         }
         public int ProcessorBatchSize {  get {
-                return Int32.Parse(Config.GetValue("cfg_ProcessorBatchSize"));
+                return GetIntValueOrADefault("cfg_ProcessorBatchSize",10);
             } 
         }
 
         public int MaxGUILogLengthChars { get {
-                return Int32.Parse(Config.GetValue("cfg_MaxGUILogLengthChars"));
+                return GetIntValueOrADefault("cfg_ProcessorBatchSize",2000);
             }
         }
 
-        public DateTime? LastProcessingDateTime {  get {
-                if(data.ContainsKey("LastProcessingDateTime"))
-                    return (DateTime)data["LastProcessingDateTime"];
-                else
-                    return null;
+        public DateTime? LastReceivedDateTime {  get {
+                return GetDataValue<DateTime>("LastReceivedDateTime");
             }
             set {
-                if (value != null)
-                    data["LastProcessingDateTime"] = value;
+                SetDataValue<DateTime?>("LastReceivedDateTime", value);
             }
-                
         }
 
-        public DateTime? LastReceiveDateTime {
+        public DateTime? LastProcessedDateTime {
             get {
-                if(data.ContainsKey("LastReceiveDateTime"))
-                    return (DateTime)data["LastReceiveDateTime"];
-                else
-                    return null;
+                return GetDataValue<DateTime>("LastProcessingDateTime");
             }
             set {
-                if(value != null)
-                    data["LastReceiveDateTime"] = value;
+                SetDataValue<DateTime?>("LastProcessingDateTime",value);
             }
 
         }
 
         public int MaxTwitterConnectionTries { get {
-                return Int32.Parse(Config.GetValue("MaxTwitterConnectionTries"));
+                return GetIntValueOrADefault("MaxTwitterConnectionTries",2);
             }
         }
 
@@ -65,7 +56,16 @@ namespace Jasonphos.TwitterSampleFeedLogic {
         protected volatile int tweetsReceivedCount;
         protected volatile int tweetsProcessedCount;
         public int TweetsReceivedCount { get { return tweetsReceivedCount; } }
-        public int TweetsProcessedCount { get { return tweetsProcessedCount; } }        
+        public int TweetsProcessedCount { get { return tweetsProcessedCount; } }
+
+        public double TweetsReceivedPerMin { get {
+                TimeSpan? ts = LastReceivedDateTime - StartProcessTimestamp;
+                if(ts != null)
+                    return ((TimeSpan)ts).TotalSeconds;
+                else
+                    return 0;
+            }
+        }
 
         public void IncrementTweetsReceivedCount(int count = 1) {
             Interlocked.Add(ref this.tweetsReceivedCount, count);

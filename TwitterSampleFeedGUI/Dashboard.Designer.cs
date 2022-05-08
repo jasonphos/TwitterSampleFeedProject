@@ -26,10 +26,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtStartTimestamp = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtTotalTweets = new System.Windows.Forms.TextBox();
-            this.txtTweetsPerMin = new System.Windows.Forms.TextBox();
+            this.txtTotalTweetsReceived = new System.Windows.Forms.TextBox();
+            this.txtTweetsReceivedPerMin = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtLastProcessedTimestamp = new System.Windows.Forms.TextBox();
+            this.txtLastReceivedTimestamp = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtCurrentDateTime = new System.Windows.Forms.TextBox();
@@ -38,6 +38,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtEndTimestamp = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtTotalTweetsProcessed = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -69,21 +71,21 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Tweets Received:";
             // 
-            // txtTotalTweets
+            // txtTotalTweetsReceived
             // 
-            this.txtTotalTweets.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.txtTotalTweets.Location = new System.Drawing.Point(431, 144);
-            this.txtTotalTweets.Name = "txtTotalTweets";
-            this.txtTotalTweets.Size = new System.Drawing.Size(109, 23);
-            this.txtTotalTweets.TabIndex = 3;
+            this.txtTotalTweetsReceived.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.txtTotalTweetsReceived.Location = new System.Drawing.Point(431, 144);
+            this.txtTotalTweetsReceived.Name = "txtTotalTweetsReceived";
+            this.txtTotalTweetsReceived.Size = new System.Drawing.Size(109, 23);
+            this.txtTotalTweetsReceived.TabIndex = 3;
             // 
-            // txtTweetsPerMin
+            // txtTweetsReceivedPerMin
             // 
-            this.txtTweetsPerMin.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.txtTweetsPerMin.Location = new System.Drawing.Point(749, 144);
-            this.txtTweetsPerMin.Name = "txtTweetsPerMin";
-            this.txtTweetsPerMin.Size = new System.Drawing.Size(109, 23);
-            this.txtTweetsPerMin.TabIndex = 5;
+            this.txtTweetsReceivedPerMin.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.txtTweetsReceivedPerMin.Location = new System.Drawing.Point(749, 144);
+            this.txtTweetsReceivedPerMin.Name = "txtTweetsReceivedPerMin";
+            this.txtTweetsReceivedPerMin.Size = new System.Drawing.Size(109, 23);
+            this.txtTweetsReceivedPerMin.TabIndex = 5;
             // 
             // label3
             // 
@@ -95,14 +97,14 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Avg Tweets/Minute:";
             // 
-            // txtLastProcessedTimestamp
+            // txtLastReceivedTimestamp
             // 
-            this.txtLastProcessedTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.txtLastProcessedTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtLastProcessedTimestamp.Location = new System.Drawing.Point(416, 65);
-            this.txtLastProcessedTimestamp.Name = "txtLastProcessedTimestamp";
-            this.txtLastProcessedTimestamp.Size = new System.Drawing.Size(148, 29);
-            this.txtLastProcessedTimestamp.TabIndex = 7;
+            this.txtLastReceivedTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.txtLastReceivedTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtLastReceivedTimestamp.Location = new System.Drawing.Point(416, 65);
+            this.txtLastReceivedTimestamp.Name = "txtLastReceivedTimestamp";
+            this.txtLastReceivedTimestamp.Size = new System.Drawing.Size(148, 29);
+            this.txtLastReceivedTimestamp.TabIndex = 7;
             // 
             // label4
             // 
@@ -110,9 +112,9 @@
             this.label4.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label4.Location = new System.Drawing.Point(416, 15);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(147, 44);
+            this.label4.Size = new System.Drawing.Size(137, 44);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Last Processing\r\nTimeStamp";
+            this.label4.Text = "Last Received \r\nTimeStamp";
             // 
             // label5
             // 
@@ -179,11 +181,31 @@
             this.label8.TabIndex = 13;
             this.label8.Text = "End\r\nTimeStamp";
             // 
+            // txtTotalTweetsProcessed
+            // 
+            this.txtTotalTweetsProcessed.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.txtTotalTweetsProcessed.Location = new System.Drawing.Point(431, 183);
+            this.txtTotalTweetsProcessed.Name = "txtTotalTweetsProcessed";
+            this.txtTotalTweetsProcessed.Size = new System.Drawing.Size(109, 23);
+            this.txtTotalTweetsProcessed.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label9.Location = new System.Drawing.Point(258, 184);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(174, 22);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "Tweets Processed:";
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 684);
+            this.Controls.Add(this.txtTotalTweetsProcessed);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.txtEndTimestamp);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -191,11 +213,11 @@
             this.Controls.Add(this.txtCurrentDateTime);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtLastProcessedTimestamp);
+            this.Controls.Add(this.txtLastReceivedTimestamp);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtTweetsPerMin);
+            this.Controls.Add(this.txtTweetsReceivedPerMin);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtTotalTweets);
+            this.Controls.Add(this.txtTotalTweetsReceived);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtStartTimestamp);
             this.Controls.Add(this.label1);
@@ -211,10 +233,10 @@
         private Label label1;
         private TextBox txtStartTimestamp;
         private Label label2;
-        private TextBox txtTotalTweets;
-        private TextBox txtTweetsPerMin;
+        private TextBox txtTotalTweetsReceived;
+        private TextBox txtTweetsReceivedPerMin;
         private Label label3;
-        private TextBox txtLastProcessedTimestamp;
+        private TextBox txtLastReceivedTimestamp;
         private Label label4;
         private Label label5;
         private TextBox txtCurrentDateTime;
@@ -223,5 +245,7 @@
         private Label label7;
         private TextBox txtEndTimestamp;
         private Label label8;
+        private TextBox txtTotalTweetsProcessed;
+        private Label label9;
     }
 }

@@ -16,7 +16,11 @@ namespace Jasonphos.TwitterSampleFeedLogic {
         }
 
         public async Task StartFeedAsync(int threadId) {
-
+            if (!_ApplicationData.IsStarted) { //Note: Currently, we have a single count for the max threads, but this code right here makes the assumption that all threads are started at roughly the same time, at the start. In reality, we should probably have 3: Min, Max and Current thread counts. This would allow us to scale up and down. This could be useful if we install into a single VM and want to scale that VM up. However, more likely we would architect this to support scaliing out, in which case the need to scale up with threads on this instance probably isn't anything to focus on. Still, it could be an option if we spent a lot of time optimizing this code.
+                _ApplicationData.IsStarted = true;
+                _ApplicationData.IsRunning = true;
+            }
+            
             while(_ApplicationData.IsRunning || _ApplicationData.Messages.Count > 0) {  //Todo: Use a Cancellation Token instead? Or, this may be good enough. I need to research Cancellation Tokens more}
                 try {
 
@@ -43,7 +47,7 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                 if (appData.Messages.TryDequeue(out String? jsonMessage)) {
                     //We are processing a Tweet. Increment our counters and other appData stuff
                     appData.IncrementTweetsProcessedCount();
-                    appData.LastProcessingDateTime  = DateTime.Now;
+                    appData.LastReceivedDateTime  = DateTime.Now;
                 } else {
                     break;
                 }
@@ -65,7 +69,7 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                     };
                     
                     
-                    request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded;charset=UTF-8");
+                    //request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded;charset=UTF-8");
 
                     try {
                         Task<HttpResponseMessage> result = _httpClient.SendAsync(request);

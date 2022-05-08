@@ -48,11 +48,11 @@ namespace Jasonphos.TwitterSampleFeedGUI {
         /// <param name="e"></param>
         private void timerTick_StartProcessor(object? sender, EventArgs e) {
             if (_processor._ApplicationData.IsStarted == false && isProcessorStarted == false) {
-                this.txtStartTimestamp.Text = determineCurrentDateTime();
                 int numberThreads = _processor._ApplicationData.ProcessorThreadCount;
                 for (int i = 0; i < numberThreads; i++) { //I also am using semaphoreslim to set the maximum number of threads, based upon some async examples I read. One of the two might not be needed, I'm not certain, but even if semaphoreslim isn't strictly needed, I don't think it causes any harm and in fact it could be useful to throttle down the number of threads, if we ever wanted to do that.
+                    int threadNumber = i + 1;
                     Task.Run(async () => {
-                        await _processor.StartFeedAsync(i+1);
+                        await _processor.StartFeedAsync(threadNumber);
                        });
                 }
                 isProcessorStarted = true;
@@ -73,11 +73,17 @@ namespace Jasonphos.TwitterSampleFeedGUI {
                 await Task.Delay(2000); //Give the Process some time to finish up. Not sure the ideal value here. Could make it configurable in the future. Also, this would be made unnecessary if we changed to a CancellationToken
                 
             }
-            txtCurrentDateTime.Text = determineCurrentDateTime();  
-            if(appData.LastProcessingDateTime == null)
-                txtLastProcessedTimestamp.Text = "";
+            txtCurrentDateTime.Text = determineCurrentDateTime();
+            txtTotalTweetsReceived.Text = appData.TweetsReceivedCount.ToString();
+            txtTotalTweetsProcessed.Text = appData.TweetsProcessedCount.ToString();
+            txtTweetsReceivedPerMin.Text = appData.TweetsReceivedPerMin.ToString();
+            txtStartTimestamp.Text = appData.StartProcessTimestamp.ToString();
+            txtEndTimestamp.Text = appData.EndProcessingTimestamp.ToString();
+            txtLastReceivedTimestamp.Text = appData.LastReceivedDateTime.ToString();
+            if(appData.LastReceivedDateTime == null)
+                txtLastReceivedTimestamp.Text = "";
             else 
-                txtLastProcessedTimestamp.Text = ((DateTime)appData.LastProcessingDateTime).ToString("MM/dd HH:mm:ss");
+                txtLastReceivedTimestamp.Text = ((DateTime)appData.LastReceivedDateTime).ToString("MM/dd HH:mm:ss");
         }
         private String determineCurrentDateTime() {
             return DateTime.Now.ToString("MM/dd HH:mm:ss");
