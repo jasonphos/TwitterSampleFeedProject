@@ -48,12 +48,17 @@ namespace Jasonphos.TwitterSampleFeedGUI {
         /// <param name="e"></param>
         private void timerTick_StartProcessor(object? sender, EventArgs e) {
             if (_processor._ApplicationData.IsStarted == false && isProcessorStarted == false) {
+
                 int numberThreads = _processor._ApplicationData.ProcessorThreadCount;
-                for (int i = 0; i < numberThreads; i++) { //I also am using semaphoreslim to set the maximum number of threads, based upon some async examples I read. One of the two might not be needed, I'm not certain, but even if semaphoreslim isn't strictly needed, I don't think it causes any harm and in fact it could be useful to throttle down the number of threads, if we ever wanted to do that.
+                Task.Run(async () => { //Can only do a single receive Thread, since StreamReader is not threadsafe! I think that should be fine for any program that reads the Twitter Sample Stream API
+                    await _processor.StartReceivingAsync();
+                });
+                
+                for(int i = 0; i < numberThreads; i++) { //I also am using semaphoreslim to set the maximum number of threads, based upon some async examples I read. One of the two might not be needed, I'm not certain, but even if semaphoreslim isn't strictly needed, I don't think it causes any harm and in fact it could be useful to throttle up and down the number of threads, if we ever wanted to do that.
                     int threadNumber = i + 1;
                     Task.Run(async () => {
-                        await _processor.StartReceivingAsync(threadNumber);
-                       });
+                        await _processor.StartProcessingAsync(threadNumber);
+                    });
                 }
                 isProcessorStarted = true;
             }
