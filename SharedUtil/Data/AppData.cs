@@ -10,6 +10,7 @@ namespace Jasonphos.SharedUtil.Data {
     public class AppData {
 
         protected StringBuilder logSb;
+        public String LogMessages { get { return logSb.ToString(); } }
         public ConfigData Config { get; set; }
         private volatile bool isStarted;
         private volatile bool isRunning;
@@ -69,7 +70,7 @@ namespace Jasonphos.SharedUtil.Data {
         }
 
         protected int GetIntValueOrADefault(String key,int defaultValue) {
-            if (!Int32.TryParse(Config.GetValue("cfg_ProcessorThreads"), out int toReturn)) {
+            if (!Int32.TryParse(Config.GetValue(key), out int toReturn)) {
                 toReturn = defaultValue;
             }
             return toReturn;

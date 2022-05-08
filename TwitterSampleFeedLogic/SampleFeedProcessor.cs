@@ -5,17 +5,17 @@ using System.Net.Http.Headers;
 namespace Jasonphos.TwitterSampleFeedLogic {
     public class SampleFeedProcessor {
         public SampleFeedAppData _ApplicationData { get; }
-        private SemaphoreSlim _semaphoreSlimProcessing = null; //Could have additional semaphores for other tasks in the future, this one is specific to processing the stream.
+        private SemaphoreSlim _semaphoreSlimReceive = null; //Could have additional semaphores for other tasks in the future, this one is specific to processing the stream.
         private HttpClient _httpClient;
         public SampleFeedProcessor(SampleFeedAppData appData) {
             _ApplicationData = appData;
-            if(_semaphoreSlimProcessing == null) {
-                _semaphoreSlimProcessing = new SemaphoreSlim(appData.ProcessorThreadCount);
+            if(_semaphoreSlimReceive == null) {
+                _semaphoreSlimReceive = new SemaphoreSlim(appData.ProcessorThreadCount);
             }
             _httpClient = new HttpClient(); //Todo: Use IHttpClientFactory instead, see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-6.0
         }
 
-        public async Task StartFeedAsync(int threadId) {
+        public async Task StartReceivingAsync(int threadId) {
             if (!_ApplicationData.IsStarted) { //Note: Currently, we have a single count for the max threads, but this code right here makes the assumption that all threads are started at roughly the same time, at the start. In reality, we should probably have 3: Min, Max and Current thread counts. This would allow us to scale up and down. This could be useful if we install into a single VM and want to scale that VM up. However, more likely we would architect this to support scaliing out, in which case the need to scale up with threads on this instance probably isn't anything to focus on. Still, it could be an option if we spent a lot of time optimizing this code.
                 _ApplicationData.IsStarted = true;
                 _ApplicationData.IsRunning = true;
@@ -24,7 +24,7 @@ namespace Jasonphos.TwitterSampleFeedLogic {
             while(_ApplicationData.IsRunning || _ApplicationData.Messages.Count > 0) {  //Todo: Use a Cancellation Token instead? Or, this may be good enough. I need to research Cancellation Tokens more}
                 try {
 
-                    await _semaphoreSlimProcessing.WaitAsync();
+                    await _semaphoreSlimReceive.WaitAsync();
 
                     if (_ApplicationData.IsRunning)
                         await ReceiveSampleFeedAsync(_ApplicationData, threadId);
@@ -34,11 +34,13 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                 } catch(Exception e) {
                     _ApplicationData.Config.Logger.LogException(e);
                 } finally {
-                    _semaphoreSlimProcessing.Release();
+                    _semaphoreSlimReceive.Release();
                 }
             }
+        }
 
-            
+        public async Task StartProcessingAsync() {
+
         }
 
         private void ProcessSampleFeed(SampleFeedAppData appData) {
@@ -72,35 +74,43 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                     //request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded;charset=UTF-8");
 
                     try {
-                        Task<HttpResponseMessage> result = _httpClient.SendAsync(request);
-                        HttpResponseMessage response = await result;
-
+                        
+                        HttpResponseMessage response = await _httpClient.SendAsync(request,HttpCompletionOption.ResponseHeadersRead);
+                        
                         requestCount++;
                         if(response.StatusCode == HttpStatusCode.OK) {
                             //stream opened!
-                            appData.Config.Logger.LogInfo("Thread " + threadId + " Opened Stream!");
                             Stream stream = await response.Content.ReadAsStreamAsync();
+                            appData.Config.Logger.LogInfo("Thread " + threadId + " Opened Stream!");
+                            int currentBatch = 1;
                             using(StreamReader str = new StreamReader(stream)) {
                                 // loop through each item in the Filtered Stream API
                                 do {
-                                    if(recordsReceived >= appData.ProcessorBatchSize) {
-                                        break; //Not sure this is necessary, but just in case. I mean, what if batchsize is 0? Doesn't make sense, but still it would be a race condition...
+                                    if(recordsReceived == 0) {
+                                        appData.Config.Logger.LogInfo("Thread " + threadId + " Batch: " + currentBatch + " Starting. Will receive " + appData.ProcessorBatchSize);
                                     }
-                                    String responseBodyAsText = await response.Content.ReadAsStringAsync();
+                                    if(recordsReceived >= appData.ProcessorBatchSize) {
+                                        appData.Config.Logger.LogInfo("Thread " + threadId + " Batch: " + currentBatch + " complete. Records received:" + recordsReceived);
+                                        recordsReceived = 0;
+                                        //await Task.Delay(10); //Not sure if this is needed, will test to determine.
+                                    }
 
-                                    string json = str.ReadLine();
+                                    String? json = str.ReadLine();
 
-                                    if(!string.IsNullOrEmpty(json)) {
+                                    if(!String.IsNullOrEmpty(json)) {
                                         // Add a message to be processed to the queue.
                                         appData.Messages.Enqueue(json);
                                         recordsReceived++;
+                                        appData.IncrementTweetsReceivedCount();
+                                        appData.LastReceivedDateTime = DateTime.Now;
                                     }
                                 } while(System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable()
-                                            && !str.EndOfStream && recordsReceived < appData.ProcessorBatchSize);
+                                            && !str.EndOfStream);
                             }
-                            appData.Config.Logger.LogInfo("Thread " + threadId + "records received:" + recordsReceived);
                         } else {
-                            appData.Config.Logger.LogInfo("Thread " + threadId + "response.StatusCode not HttpStatusCode.OK. Currently: " + response.StatusCode);
+                            appData.Config.Logger.LogError("Thread " + threadId + "response.StatusCode not HttpStatusCode.OK. Currently: " + response.StatusCode);
+                            appData.Config.Logger.LogInfo("Sleeping 5 minutes in an effort to prevent too many requests");
+                            await Task.Delay(1000 * 300);
                         }
                     } catch(WebException ex) {
                         appData.Config.Logger.LogException(ex);
@@ -109,9 +119,12 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                         appData.Config.Logger.LogException(ex);
                     }
                 } catch(Exception ex) {
-                    if(tried < appData.MaxTwitterConnectionTries)
-                        await Task.Delay(100);//Simple wait to retry connection logic. Todo: Enhance, i.e. increase time period as tries increases.
-                    appData.Config.Logger.LogException(ex);
+                    if(tried < appData.MaxTwitterConnectionTries) {
+                        appData.Config.Logger.LogException(ex);
+                        appData.Config.Logger.LogInfo("Sleeping 2 minutes in an effort to prevent too many requests");
+                        await Task.Delay(1000 * 120);//Simple wait to retry connection logic. Todo: Enhance, i.e. increase time period as tries increases.
+                    }
+                    
                 }
             }
         }

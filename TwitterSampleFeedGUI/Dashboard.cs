@@ -52,7 +52,7 @@ namespace Jasonphos.TwitterSampleFeedGUI {
                 for (int i = 0; i < numberThreads; i++) { //I also am using semaphoreslim to set the maximum number of threads, based upon some async examples I read. One of the two might not be needed, I'm not certain, but even if semaphoreslim isn't strictly needed, I don't think it causes any harm and in fact it could be useful to throttle down the number of threads, if we ever wanted to do that.
                     int threadNumber = i + 1;
                     Task.Run(async () => {
-                        await _processor.StartFeedAsync(threadNumber);
+                        await _processor.StartReceivingAsync(threadNumber);
                        });
                 }
                 isProcessorStarted = true;
@@ -80,6 +80,7 @@ namespace Jasonphos.TwitterSampleFeedGUI {
             txtStartTimestamp.Text = appData.StartProcessTimestamp.ToString();
             txtEndTimestamp.Text = appData.EndProcessingTimestamp.ToString();
             txtLastReceivedTimestamp.Text = appData.LastReceivedDateTime.ToString();
+            txtLog.Text = appData.LogMessages;
             if(appData.LastReceivedDateTime == null)
                 txtLastReceivedTimestamp.Text = "";
             else 

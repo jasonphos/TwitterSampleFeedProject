@@ -61,7 +61,7 @@ namespace Jasonphos.SharedUtil.Util {
 
         private void WriteMessageToAppData(String message) {
             if (AssociatedAppData != null) {
-                AssociatedAppData.AppendToLog(message);
+                AssociatedAppData.AppendToLog(message + System.Environment.NewLine);
             }
         }
     }
