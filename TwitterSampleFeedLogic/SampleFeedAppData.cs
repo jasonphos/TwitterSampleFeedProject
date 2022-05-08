@@ -61,7 +61,7 @@ namespace Jasonphos.TwitterSampleFeedLogic {
         public double TweetsReceivedPerMin { get {
                 TimeSpan? ts = LastReceivedDateTime - StartProcessTimestamp;
                 if(ts != null)
-                    return ((TimeSpan)ts).TotalSeconds;
+                    return tweetsReceivedCount / ( ((TimeSpan)ts).TotalSeconds/60);
                 else
                     return 0;
             }

@@ -40,6 +40,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtTotalTweetsProcessed = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.btnStop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -58,7 +59,7 @@
             this.txtStartTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtStartTimestamp.Location = new System.Drawing.Point(12, 64);
             this.txtStartTimestamp.Name = "txtStartTimestamp";
-            this.txtStartTimestamp.Size = new System.Drawing.Size(148, 29);
+            this.txtStartTimestamp.Size = new System.Drawing.Size(216, 29);
             this.txtStartTimestamp.TabIndex = 1;
             // 
             // label2
@@ -101,7 +102,7 @@
             // 
             this.txtLastReceivedTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.txtLastReceivedTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtLastReceivedTimestamp.Location = new System.Drawing.Point(416, 65);
+            this.txtLastReceivedTimestamp.Location = new System.Drawing.Point(556, 64);
             this.txtLastReceivedTimestamp.Name = "txtLastReceivedTimestamp";
             this.txtLastReceivedTimestamp.Size = new System.Drawing.Size(148, 29);
             this.txtLastReceivedTimestamp.TabIndex = 7;
@@ -110,7 +111,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(416, 15);
+            this.label4.Location = new System.Drawing.Point(556, 14);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(137, 44);
             this.label4.TabIndex = 6;
@@ -130,7 +131,7 @@
             // 
             this.txtCurrentDateTime.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.txtCurrentDateTime.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtCurrentDateTime.Location = new System.Drawing.Point(619, 64);
+            this.txtCurrentDateTime.Location = new System.Drawing.Point(731, 64);
             this.txtCurrentDateTime.Name = "txtCurrentDateTime";
             this.txtCurrentDateTime.Size = new System.Drawing.Size(148, 29);
             this.txtCurrentDateTime.TabIndex = 10;
@@ -139,7 +140,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(619, 15);
+            this.label6.Location = new System.Drawing.Point(731, 15);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(97, 44);
             this.label6.TabIndex = 9;
@@ -166,16 +167,16 @@
             // 
             this.txtEndTimestamp.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.txtEndTimestamp.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtEndTimestamp.Location = new System.Drawing.Point(212, 64);
+            this.txtEndTimestamp.Location = new System.Drawing.Point(266, 64);
             this.txtEndTimestamp.Name = "txtEndTimestamp";
-            this.txtEndTimestamp.Size = new System.Drawing.Size(148, 29);
+            this.txtEndTimestamp.Size = new System.Drawing.Size(208, 29);
             this.txtEndTimestamp.TabIndex = 14;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(212, 15);
+            this.label8.Location = new System.Drawing.Point(266, 15);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(107, 44);
             this.label8.TabIndex = 13;
@@ -199,11 +200,23 @@
             this.label9.TabIndex = 15;
             this.label9.Text = "Tweets Processed:";
             // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnStop.Location = new System.Drawing.Point(349, 227);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(355, 77);
+            this.btnStop.TabIndex = 26;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = false;
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 684);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.txtTotalTweetsProcessed);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.txtEndTimestamp);
@@ -247,5 +260,6 @@
         private Label label8;
         private TextBox txtTotalTweetsProcessed;
         private Label label9;
+        private Button btnStop;
     }
 }

@@ -64,7 +64,7 @@ namespace Jasonphos.SharedUtil.Data {
         }
         protected void SetDataValue<T>(String key,T? value) {
             if(value != null)
-                data["LastProcessingDateTime"] = value;
+                data[key] = value;
             else
                 data.Remove(key,out object? outValue);
         }

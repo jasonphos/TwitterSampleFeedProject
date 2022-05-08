@@ -23,8 +23,8 @@ namespace Jasonphos.TwitterSampleFeedLogic {
 
         public async Task StartReceivingAsync() {
             if (!_ApplicationData.IsStarted) { //Note: Currently, we have a single count for the max threads, but this code right here makes the assumption that all threads are started at roughly the same time, at the start. In reality, we should probably have 3: Min, Max and Current thread counts. This would allow us to scale up and down. This could be useful if we install into a single VM and want to scale that VM up. However, more likely we would architect this to support scaliing out, in which case the need to scale up with threads on this instance probably isn't anything to focus on. Still, it could be an option if we spent a lot of time optimizing this code.
-                _ApplicationData.IsStarted = true;
                 _ApplicationData.IsRunning = true;
+                _ApplicationData.IsStarted = true;
             }
             
             while(_ApplicationData.IsRunning) {  //Todo: Use a Cancellation Token instead? Or, this may be good enough. I need to research Cancellation Tokens more}
@@ -33,7 +33,7 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                     await _semaphoreSlimReceive.WaitAsync();
                     int batchId = 0;
                     await ReceiveSampleFeedAsync(_ApplicationData,batchId);
-
+                    batchId++;
                 } catch(Exception e) {
                     _ApplicationData.Config.Logger.LogException(e);
                 } finally {
@@ -53,12 +53,11 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                 try {
                     await _semaphoreSlimProcess.WaitAsync();
 
-                    int batchId = 0;
-                    if(_ApplicationData.IsRunning)
+                    if(_ApplicationData.Messages.Count > 0)
                         await ProcessSampleFeed(_ApplicationData,threadId);
                     else
                         await Task.Delay(250); //Give it a little time to start running. 250 is arbitrary, could analyze and tweak to find optimal amount.
-                    batchId++;
+                    
                 } catch(Exception e) {
                     _ApplicationData.Config.Logger.LogException(e);
                 } finally {
@@ -70,7 +69,11 @@ namespace Jasonphos.TwitterSampleFeedLogic {
         private async Task ProcessSampleFeed(SampleFeedAppData appData, int threadId) {
             const int ExtraMessagesBufferCount = 1; //Technically, we don't have to process ProcessorBatchSize number of messages here. We could process more. For that reason, I'm going to introduce this constant that can be tweaked during testing. We could make this configurable, but for now it's in the research phase. I'm not certain we need a buffer, but we might. So, the plan is to do some development testing with this number as different values.
             bool isFirstMessage = true;
-            for(int i = 0; i < appData.ProcessorBatchSize + ExtraMessagesBufferCount; i++) {
+
+            int maxDelayCount = 0;
+            int i;
+            const int MAXIMUM_DELAYS = 10; //We'll only delay up to 10 times, then we'll just call this batch a wrap and move on.
+            for(i = 0; i < appData.ProcessorBatchSize + ExtraMessagesBufferCount; i++) {
                 if (appData.Messages.TryDequeue(out String? jsonMessage)) {
                     //We are processing a Tweet. Increment our counters and other appData stuff
                     appData.IncrementTweetsProcessedCount();
@@ -81,11 +84,13 @@ namespace Jasonphos.TwitterSampleFeedLogic {
                         appData.Config.Logger.LogInfo("First Processed Message this Batch by Thread " + threadId + ": " + jsonMessage);
                     }
                 } else {
-                    appData.Config.Logger.LogInfo("Processing Thread " + threadId + " processed " + i + " messages");
-                    break;
+                    if (maxDelayCount < MAXIMUM_DELAYS)
+                        await Task.Delay(200); //There are no messages in the queue, so let's wait for more and let other things run, such as receiving messages!
+                    else
+                        break; //We'll consider this batch done and move on.
                 }
             }
-            await Task.Delay(200); //We are simulating an async call because this processing thread doesn't have any async tasks, since it is extremely simple. So, we will simulate an async call (such as writing to a queue might be) with this Task.Delay.
+            appData.Config.Logger.LogInfo("Processing Thread " + threadId + " processed " + i + " messages");
         }
 
         private async Task ReceiveSampleFeedAsync(SampleFeedAppData appData, int currentBatch) {

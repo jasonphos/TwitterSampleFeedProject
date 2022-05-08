@@ -29,13 +29,14 @@ namespace TwitterSampleFeedTest {
                     await processor.StartProcessingAsync(threadNumber);
                 });
             }
-            Thread.Sleep(3000);
-            Assert.IsTrue(processor._ApplicationData.IsStarted && processor._ApplicationData.IsRunning);
-            Thread.Sleep(30000000);
-            processor._ApplicationData.IsRunning = false; //Stop it from running
             Thread.Sleep(500);
-            Assert.IsTrue(processor._ApplicationData.IsRunning);
+            Assert.IsTrue(processor._ApplicationData.IsStarted && processor._ApplicationData.IsRunning);
+            Thread.Sleep(4000);
+            processor._ApplicationData.IsRunning = false; //Stop it from running
+            Thread.Sleep(250);
+            Assert.IsFalse(processor._ApplicationData.IsRunning);
             Assert.IsTrue(processor._ApplicationData.TweetsReceivedCount > 0);
+            
 
 
         }

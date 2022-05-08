@@ -23,6 +23,11 @@ namespace Jasonphos.TwitterSampleFeedGUI {
             InitializeComponent();
             this.Load += new EventHandler(frmDashboard_Load);
             _processor = new SampleFeedProcessor(new SampleFeedAppData(configData));
+            this.btnStop.Click += new EventHandler(btnStop_Click);
+        }
+
+        private void btnStop_Click(object? sender,EventArgs e) {
+            _processor._ApplicationData.IsRunning = false;
         }
 
         private void frmDashboard_Load(object? sender, EventArgs e) {
